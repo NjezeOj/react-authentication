@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import {registerUser} from './action/auth';
+import {Redirect} from 'react-router-dom';
 
 
 //he is using useEffect that is why he is using functions
@@ -11,7 +12,8 @@ const Register = ({isLoggedIn, registerUser}) => {
 
     let [data, setData] = useState({
         email: '',
-        password: ''
+        password: '',
+        
     });
 
     let { email, password } = data
@@ -21,10 +23,15 @@ const Register = ({isLoggedIn, registerUser}) => {
     }
 
     const submitData = () => {
+        
         if(email === '' && password === '') return alert('Empty values')
         else registerUser(email, password);
-            
+         
+        console.log(data)
     }
+
+    if (isLoggedIn)
+        return <Redirect to="/" />
 
     return (
         <div>

@@ -1,6 +1,9 @@
 import React, {useState} from 'react'; 
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
+import { loginUser } from './action/auth';
 
- const Login = () => {
+const Login = ({isLoggedIn, loginUser}) => {
 
     let [data, setData] = useState({
         email: '',
@@ -14,8 +17,13 @@ import React, {useState} from 'react';
     }
 
     const submitData = () => {
+        if (email === '' && password === '') return alert('Empty values')
+        else loginUser(email, password);
         console.log(data)
     }
+
+    if (isLoggedIn)
+        return <Redirect to="/" />
 
     return(
         <div>
@@ -35,4 +43,8 @@ import React, {useState} from 'react';
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    isLoggedIn: state.isLoggedIn
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);
